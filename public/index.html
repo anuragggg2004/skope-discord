@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SKOPE — Bot Developer Portal</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <span class="logo-icon">🚀</span>
+          <span class="logo-text">SKOPE</span>
+          <span class="logo-badge">DEV</span>
+        </div>
+      </div>
+      
+      <!-- BOT SELECTOR DROPDOWN -->
+      <div class="bot-selector-container">
+        <label for="bot-select" class="selector-label">Active Application</label>
+        <div class="custom-select-wrapper">
+          <select id="bot-select">
+            <option value="career-bot" selected>Skope Career Bot</option>
+            <option value="sandbox-bot">Skope Sandbox Bot</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- NAVIGATION LINKS -->
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item active" data-target="page-overview">
+            <span class="nav-icon">📊</span> Overview
+          </li>
+          <li class="nav-item" data-target="page-general">
+            <span class="nav-icon">⚙️</span> General
+          </li>
+          <li class="nav-item" data-target="page-ai">
+            <span class="nav-icon">🤖</span> AI Configuration
+          </li>
+          <li class="nav-item" data-target="page-knowledge">
+            <span class="nav-icon">📚</span> Knowledge Base
+          </li>
+          <li class="nav-item" data-target="page-oauth">
+            <span class="nav-icon">🔑</span> OAuth2
+          </li>
+          <li class="nav-item" data-target="page-permissions">
+            <span class="nav-icon">🛡️</span> Permissions
+          </li>
+          <li class="nav-item" data-target="page-commands">
+            <span class="nav-icon">💬</span> Commands
+          </li>
+          <li class="nav-item" data-target="page-integrations">
+            <span class="nav-icon">🔌</span> Integrations
+          </li>
+          <li class="nav-item" data-target="page-analytics">
+            <span class="nav-icon">📈</span> Analytics
+          </li>
+          <li class="nav-item" data-target="page-logs">
+            <span class="nav-icon">📝</span> Logs
+          </li>
+          <li class="nav-item" data-target="page-settings">
+            <span class="nav-icon">🔧</span> Settings
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- USER/BOT PROFILE CORNER -->
+      <div class="sidebar-profile" id="bot-profile-corner">
+        <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Bot Avatar" class="profile-avatar" id="corner-bot-avatar">
+        <div class="profile-details">
+          <span class="profile-name" id="corner-bot-name">Skope Bot</span>
+          <span class="profile-status" id="corner-bot-status"><span class="status-dot green"></span> online</span>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+      <!-- HEADER BAR -->
+      <header class="content-header">
+        <div class="header-left">
+          <h1 id="page-title">Overview</h1>
+          <p id="page-subtitle" class="text-secondary">System summary, statistics, and application status.</p>
+        </div>
+        <div class="header-right">
+          <button class="btn btn-primary" id="refresh-all-btn">🔄 Refresh Data</button>
+        </div>
+      </header>
+      
+      <!-- PAGES WRAPPER -->
+      <div class="pages-container">
+        
+        <!-- PAGE: OVERVIEW -->
+        <section id="page-overview" class="page-section active">
+          <!-- METRIC CARD GRID -->
+          <div class="grid grid-4">
+            <div class="card metric-card">
+              <div class="card-body">
+                <span class="metric-icon blue">🛡️</span>
+                <div class="metric-info">
+                  <h3 id="stat-warnings-total">0</h3>
+                  <p class="text-secondary">Warnings Issued</p>
+                </div>
+              </div>
+            </div>
+            <div class="card metric-card">
+              <div class="card-body">
+                <span class="metric-icon purple">🎫</span>
+                <div class="metric-info">
+                  <h3 id="stat-tickets-open">0</h3>
+                  <p class="text-secondary">Open Tickets</p>
+                </div>
+              </div>
+            </div>
+            <div class="card metric-card">
+              <div class="card-body">
+                <span class="metric-icon green">📥</span>
+                <div class="metric-info">
+                  <h3 id="stat-suggestions-total">0</h3>
+                  <p class="text-secondary">Total Suggestions</p>
+                </div>
+              </div>
+            </div>
+            <div class="card metric-card">
+              <div class="card-body">
+                <span class="metric-icon orange">🐛</span>
+                <div class="metric-info">
+                  <h3 id="stat-bugs-total">0</h3>
+                  <p class="text-secondary">Bugs Reported</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="grid grid-3-2 mt-20">
+            <!-- BOT OVERVIEW DETAILS -->
+            <div class="card">
+              <div class="card-header">
+                <h2>Application Details</h2>
+              </div>
+              <div class="card-body">
+                <div class="info-list">
+                  <div class="info-row">
+                    <span class="info-label">Application ID</span>
+                    <span class="info-value copyable">1520534701444431912 📋</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label">Connected Guilds</span>
+                    <span class="info-value" id="info-guilds">0</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label">Cached Users</span>
+                    <span class="info-value" id="info-users">0</span>
+                  </div>
+                  <div class="info-row">
+                    <span class="info-label">Gateway Latency</span>
+                    <span class="info-value text-accent" id="info-ping">0ms</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- QUICK COMMAND PANEL -->
+            <div class="card">
+              <div class="card-header">
+                <h2>Activity & Presence Control</h2>
+              </div>
+              <div class="card-body">
+                <form id="presence-form">
+                  <div class="form-group">
+                    <label for="presence-status">Presence Status</label>
+                    <select id="presence-status" class="form-control">
+                      <option value="online">🟢 Online</option>
+                      <option value="idle">🌙 Idle</option>
+                      <option value="dnd">🔴 Do Not Disturb</option>
+                      <option value="invisible">⚪ Invisible</option>
+                    </select>
+                  </div>
+                  <div class="form-group mt-15">
+                    <label for="presence-activity">Activity String</label>
+                    <input type="text" id="presence-activity" class="form-control" placeholder="Class 12 Career Counselor">
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-block mt-20">Save Presence Settings</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: GENERAL -->
+        <section id="page-general" class="page-section">
+          <div class="card max-width-800">
+            <div class="card-header">
+              <h2>General Application Profile</h2>
+            </div>
+            <div class="card-body">
+              <div class="profile-header-edit">
+                <img src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Bot Avatar" class="bot-big-avatar" id="general-bot-avatar">
+                <div class="profile-header-details">
+                  <h3 id="general-bot-name">Skope#8757</h3>
+                  <p class="text-secondary">App Owner: offanuragtiwary</p>
+                </div>
+              </div>
+              
+              <hr class="divider mt-20 mb-20">
+              
+              <form id="general-settings-form">
+                <div class="form-group">
+                  <label>APPLICATION NAME</label>
+                  <input type="text" class="form-control" value="Skope bot" readonly>
+                </div>
+                <div class="form-group mt-15">
+                  <label>DESCRIPTION</label>
+                  <textarea class="form-control" rows="3" readonly>AI Career Discovery Counseling Bot designed to help Class 12 Indian students choose correct college, courses, and entrance exam matches.</textarea>
+                </div>
+                <div class="form-group mt-15">
+                  <label>COMMAND PREFIX</label>
+                  <input type="text" class="form-control" value="/" readonly>
+                  <p class="form-tip">This application utilizes slash commands globally.</p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: AI CONFIGURATION -->
+        <section id="page-ai" class="page-section">
+          <div class="card max-width-800">
+            <div class="card-header">
+              <h2>AI Toxicity & Stress Filters Config</h2>
+            </div>
+            <div class="card-body">
+              <div class="alert alert-info">
+                <h3>🔍 Google Perspective API Connection</h3>
+                <p id="ai-key-status">Status: Checking key configuration...</p>
+              </div>
+              
+              <form id="ai-config-form" class="mt-20">
+                <div class="form-group">
+                  <label for="ai-toxicity-threshold">Toxicity Threshold (Perspective Score)</label>
+                  <div class="range-wrapper">
+                    <input type="range" id="ai-toxicity-threshold" min="0.5" max="0.95" step="0.05" value="0.70" class="range-slider">
+                    <span id="range-value" class="range-value">0.70</span>
+                  </div>
+                  <p class="form-tip">Comments with toxicity scoring above this limit will be automatically deleted and user will receive warnings.</p>
+                </div>
+                
+                <div class="form-group mt-20">
+                  <label>Severe Stress / Self-Harm Flags (Local Fallback)</label>
+                  <div id="ai-stress-keywords" class="tags-container"></div>
+                </div>
+
+                <div class="form-group mt-20">
+                  <label>Academic Spam Keywords</label>
+                  <div id="ai-spam-keywords" class="tags-container"></div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary mt-20">Apply Filters Configuration</button>
+              </form>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: KNOWLEDGE BASE -->
+        <section id="page-knowledge" class="page-section">
+          <div class="card max-width-800">
+            <div class="card-header">
+              <h2>Counselor Knowledge Base Settings</h2>
+            </div>
+            <div class="card-body">
+              <p>Customize the information database that the Skope bot uses for academic counseling recommendations.</p>
+              
+              <div class="knowledge-stats-grid mt-20">
+                <div class="k-stat-card">
+                  <h4>20+</h4>
+                  <p>Hidden Gem Colleges</p>
+                </div>
+                <div class="k-stat-card">
+                  <h4>12+</h4>
+                  <p>Alternative Entrance Exams</p>
+                </div>
+                <div class="k-stat-card">
+                  <h4>12+</h4>
+                  <p>Niche Career Paths</p>
+                </div>
+              </div>
+
+              <div class="alert alert-purple mt-20">
+                <h3>💡 Dynamic Context Syncing</h3>
+                <p>The bot dynamically queries the database for active student counseling sessions and updates its contextual memory based on individual marks, cities, budget, and stream choices.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: OAUTH2 -->
+        <section id="page-oauth" class="page-section">
+          <div class="card max-width-800">
+            <div class="card-header">
+              <h2>OAuth2 URL Generator</h2>
+            </div>
+            <div class="card-body">
+              <p class="text-secondary">Generate the bot invite link using standard Discord permission scopes.</p>
+              
+              <div class="oauth-box mt-20">
+                <h3>SCOPES</h3>
+                <div class="checkbox-grid">
+                  <label class="checkbox-container"><input type="checkbox" checked disabled> bot</label>
+                  <label class="checkbox-container"><input type="checkbox" checked disabled> applications.commands</label>
+                  <label class="checkbox-container"><input type="checkbox"> identify</label>
+                  <label class="checkbox-container"><input type="checkbox"> guilds</label>
+                </div>
+              </div>
+              
+              <div class="oauth-box mt-20">
+                <h3>BOT PERMISSIONS</h3>
+                <div class="checkbox-grid">
+                  <label class="checkbox-container"><input type="checkbox" checked> Send Messages</label>
+                  <label class="checkbox-container"><input type="checkbox" checked> Manage Messages</label>
+                  <label class="checkbox-container"><input type="checkbox" checked> Manage Channels</label>
+                  <label class="checkbox-container"><input type="checkbox" checked> Manage Roles</label>
+                  <label class="checkbox-container"><input type="checkbox" checked> Read Message History</label>
+                  <label class="checkbox-container"><input type="checkbox" checked> Timeout Members</label>
+                  <label class="checkbox-container"><input type="checkbox" checked> Kick Members</label>
+                </div>
+              </div>
+
+              <div class="invite-link-wrapper mt-20">
+                <label>GENERATED INVITE LINK</label>
+                <div class="invite-input-row">
+                  <input type="text" id="invite-link-input" class="form-control" value="https://discord.com/api/oauth2/authorize?client_id=1520534701444431912&permissions=1099511627798&scope=bot%20applications.commands" readonly>
+                  <button class="btn btn-secondary" id="copy-invite-btn">Copy Link</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: PERMISSIONS -->
+        <section id="page-permissions" class="page-section">
+          <div class="card max-width-800">
+            <div class="card-header">
+              <h2>Permissions Hierarchy Configuration</h2>
+            </div>
+            <div class="card-body">
+              <p>Configure which Discord roles have administrative command rights (like warning, timing out, or approving suggestions).</p>
+              
+              <div class="form-group mt-20">
+                <label>Developer / Owner Override Roles</label>
+                <input type="text" class="form-control" value="Administrator" readonly>
+              </div>
+
+              <div class="form-group mt-15">
+                <label>Staff Moderator Role Snowflake ID</label>
+                <input type="text" class="form-control" value="123456789012345678" readonly>
+                <p class="form-tip">This is mapping to the `ROLE_STAFF` environment configuration.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: COMMANDS -->
+        <section id="page-commands" class="page-section">
+          <div class="card">
+            <div class="card-header">
+              <h2>Registered Slash Commands</h2>
+            </div>
+            <div class="card-body">
+              <p class="text-secondary mb-15">These slash commands are successfully registered in the server for Guild 1512269818227593287.</p>
+              
+              <div class="table-responsive">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>COMMAND NAME</th>
+                      <th>DESCRIPTION</th>
+                      <th>TYPE</th>
+                    </tr>
+                  </thead>
+                  <tbody id="commands-table-body">
+                    <!-- Commands populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: INTEGRATIONS -->
+        <section id="page-integrations" class="page-section">
+          <div class="card max-width-800">
+            <div class="card-header">
+              <h2>Third-Party Connections & Webhooks</h2>
+            </div>
+            <div class="card-body">
+              <div class="integration-item">
+                <div class="integration-info">
+                  <h3>GitHub Deployment Webhook</h3>
+                  <p class="text-secondary">Receives push notifications to announce updates in `#announcements` automatically.</p>
+                </div>
+                <span class="badge badge-success">Enabled</span>
+              </div>
+              <hr class="divider mt-15 mb-15">
+              <div class="integration-item">
+                <div class="integration-info">
+                  <h3>UptimeRobot / BetterStack Liveness</h3>
+                  <p class="text-secondary">Pings bot Express `/healthz` route on port 3001 every 5 minutes to prevent sleeping.</p>
+                </div>
+                <span class="badge badge-success">Active</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: ANALYTICS -->
+        <section id="page-analytics" class="page-section">
+          <div class="grid grid-2">
+            <div class="card">
+              <div class="card-header">
+                <h2>Safety & Warnings Activity</h2>
+              </div>
+              <div class="card-body">
+                <div class="chart-mockup">
+                  <div class="bar-chart">
+                    <div class="bar" style="height: 10%;" data-label="Mon"></div>
+                    <div class="bar" style="height: 35%;" data-label="Tue"></div>
+                    <div class="bar" style="height: 20%;" data-label="Wed"></div>
+                    <div class="bar" style="height: 60%;" data-label="Thu"></div>
+                    <div class="bar" style="height: 45%;" data-label="Fri"></div>
+                    <div class="bar" style="height: 15%;" data-label="Sat"></div>
+                    <div class="bar" style="height: 5%;" data-label="Sun"></div>
+                  </div>
+                </div>
+                <p class="text-secondary mt-15 text-center">Spam & toxic messages deleted by bot per weekday.</p>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <h2>User Verification Conversions</h2>
+              </div>
+              <div class="card-body">
+                <div class="chart-mockup">
+                  <div class="pie-chart-mock">
+                    <div class="pie-segment blue" style="--percent: 60;">Science (60%)</div>
+                    <div class="pie-segment orange" style="--percent: 25;">Commerce (25%)</div>
+                    <div class="pie-segment purple" style="--percent: 15;">Arts (15%)</div>
+                  </div>
+                </div>
+                <p class="text-secondary mt-15 text-center">Student stream role distributions.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: LOGS -->
+        <section id="page-logs" class="page-section">
+          <div class="card flex-grow-1">
+            <div class="card-header logs-header">
+              <h2>Developer Console logs</h2>
+              <button class="btn btn-secondary btn-sm" id="clear-logs-btn">Clear View</button>
+            </div>
+            <div class="card-body log-container-body">
+              <div class="log-console" id="log-console-output">
+                <!-- Logs populated dynamically -->
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- PAGE: SETTINGS -->
+        <section id="page-settings" class="page-section">
+          <div class="card max-width-800">
+            <div class="card-header">
+              <h2>Dashboard General Settings</h2>
+            </div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>PORT INTERFACE</label>
+                <input type="text" class="form-control" value="3001" readonly>
+              </div>
+              <div class="form-group mt-15">
+                <label>GITHUB WEBHOOK SECURE HMAC KEY</label>
+                <input type="password" class="form-control" value="skope_secret" readonly>
+              </div>
+              <div class="form-group mt-15">
+                <label>DEVELOPER MODE OPTIONS</label>
+                <div class="checkbox-container mt-10">
+                  <input type="checkbox" checked disabled> Enable real-time logging sync via REST APIs
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
