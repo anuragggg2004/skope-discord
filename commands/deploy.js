@@ -10,6 +10,21 @@ import * as reportCmd from './report.js';
 import * as setupVerifCmd from './setup-verification.js';
 import * as setupSupportCmd from './setup-support.js';
 import * as setupFeedbackPanelsCmd from './setup-feedback-panels.js';
+import * as helpCmd from './help.js';
+import * as websiteCmd from './website.js';
+import * as lockCmd from './lock.js';
+import * as unlockCmd from './unlock.js';
+import * as purgeCmd from './purge.js';
+import * as slowmodeCmd from './slowmode.js';
+import * as kickCmd from './kick.js';
+import * as banCmd from './ban.js';
+import * as softbanCmd from './softban.js';
+import * as quizCmd from './quiz.js';
+import * as leaderboardCmd from './leaderboard.js';
+import * as confessCmd from './confess.js';
+import * as examsCmd from './exams.js';
+import * as studentProfileCmd from './student-profile.js';
+import * as reportMessageCmd from './report-message.js';
 
 const commands = [
   statusCmd.data.toJSON(),
@@ -21,7 +36,22 @@ const commands = [
   reportCmd.data.toJSON(),
   setupVerifCmd.data.toJSON(),
   setupSupportCmd.data.toJSON(),
-  setupFeedbackPanelsCmd.data.toJSON()
+  setupFeedbackPanelsCmd.data.toJSON(),
+  helpCmd.data.toJSON(),
+  websiteCmd.data.toJSON(),
+  lockCmd.data.toJSON(),
+  unlockCmd.data.toJSON(),
+  purgeCmd.data.toJSON(),
+  slowmodeCmd.data.toJSON(),
+  kickCmd.data.toJSON(),
+  banCmd.data.toJSON(),
+  softbanCmd.data.toJSON(),
+  quizCmd.data.toJSON(),
+  leaderboardCmd.data.toJSON(),
+  confessCmd.data.toJSON(),
+  examsCmd.data.toJSON(),
+  studentProfileCmd.data.toJSON(),
+  reportMessageCmd.data.toJSON()
 ];
 
 // Decode Client ID from the first segment of the Discord Bot Token

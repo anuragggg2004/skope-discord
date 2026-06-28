@@ -19,6 +19,21 @@ import * as reportCmd from './commands/report.js';
 import * as setupVerifCmd from './commands/setup-verification.js';
 import * as setupSupportCmd from './commands/setup-support.js';
 import * as setupFeedbackPanelsCmd from './commands/setup-feedback-panels.js';
+import * as helpCmd from './commands/help.js';
+import * as websiteCmd from './commands/website.js';
+import * as lockCmd from './commands/lock.js';
+import * as unlockCmd from './commands/unlock.js';
+import * as purgeCmd from './commands/purge.js';
+import * as slowmodeCmd from './commands/slowmode.js';
+import * as kickCmd from './commands/kick.js';
+import * as banCmd from './commands/ban.js';
+import * as softbanCmd from './commands/softban.js';
+import * as quizCmd from './commands/quiz.js';
+import * as leaderboardCmd from './commands/leaderboard.js';
+import * as confessCmd from './commands/confess.js';
+import * as examsCmd from './commands/exams.js';
+import * as studentProfileCmd from './commands/student-profile.js';
+import * as reportMessageCmd from './commands/report-message.js';
 
 // Import events
 import * as readyEvent from './events/ready.js';
@@ -227,7 +242,22 @@ const commandModules = [
   reportCmd,
   setupVerifCmd,
   setupSupportCmd,
-  setupFeedbackPanelsCmd
+  setupFeedbackPanelsCmd,
+  helpCmd,
+  websiteCmd,
+  lockCmd,
+  unlockCmd,
+  purgeCmd,
+  slowmodeCmd,
+  kickCmd,
+  banCmd,
+  softbanCmd,
+  quizCmd,
+  leaderboardCmd,
+  confessCmd,
+  examsCmd,
+  studentProfileCmd,
+  reportMessageCmd
 ];
 
 for (const cmd of commandModules) {

@@ -4,6 +4,7 @@ dotenv.config();
 export const config = {
   discordToken: process.env.DISCORD_TOKEN,
   port: parseInt(process.env.PORT || '3000', 10),
+  prefix: process.env.PREFIX || '!',
   mongodbUri: process.env.MONGODB_URI || 'mongodb://localhost:27017/discord_skope',
   perspectiveApiKey: process.env.PERSPECTIVE_API_KEY || null,
   githubWebhookSecret: process.env.GITHUB_WEBHOOK_SECRET || 'skope_secret',
@@ -32,12 +33,19 @@ export const config = {
     feedback: process.env.CHANNEL_FEEDBACK,
     bugs: process.env.CHANNEL_BUGS,
     featureRequests: process.env.CHANNEL_FEATURE_REQUESTS,
+    dailyQuiz: process.env.CHANNEL_DAILY_QUIZ,
+    confessions: process.env.CHANNEL_CONFESSIONS,
+    examAlerts: process.env.CHANNEL_EXAM_ALERTS,
   },
   
   // Categories
   categories: {
     tickets: process.env.CATEGORY_TICKETS,
-  }
+  },
+
+  // Website URLs
+  websiteUrl: process.env.WEBSITE_URL || 'https://anuraggg.tech',
+  websiteRenderUrl: process.env.WEBSITE_RENDER_URL || 'https://skope-77eq.onrender.com/'
 };
 
 // Validate that required values are present

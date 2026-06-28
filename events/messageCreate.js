@@ -7,9 +7,81 @@ import { config } from '../config.js';
 export const name = 'messageCreate';
 export const once = false;
 
+const userMessages = new Map();
+
 export async function execute(message, client) {
   // Ignore bots and direct messages
   if (message.author.bot || !message.guild) return;
+
+  // 1. Handle Prefix Command Execution
+  if (message.content.startsWith(config.prefix)) {
+    const args = message.content.slice(config.prefix.length).trim().split(/ +/);
+    const commandName = args.shift().toLowerCase();
+
+    const command = client.commands.get(commandName);
+    if (command) {
+      // Mock interaction object
+      const mockInteraction = {
+        guild: message.guild,
+        channel: message.channel,
+        user: message.author,
+        member: message.member,
+        channelId: message.channelId,
+        deferred: false,
+        replied: false,
+        reply: async (payload) => {
+          mockInteraction.replied = true;
+          return message.reply(payload);
+        },
+        editReply: async (payload) => {
+          mockInteraction.replied = true;
+          return message.reply(payload);
+        },
+        deferReply: async (options) => {
+          mockInteraction.deferred = true;
+          await message.channel.sendTyping();
+        },
+        followUp: async (payload) => {
+          return message.reply(payload);
+        },
+        showModal: async (modal) => {
+          return message.reply({ content: `⚠️ Modals are not supported in prefix commands. Please run \`/${commandName}\` instead.` });
+        },
+        options: {
+          getUser: (name) => {
+            const mention = message.mentions.users.first();
+            return mention || null;
+          },
+          getString: (name) => {
+            if (name === 'reason') {
+              // reason is typically everything after the user mention
+              // e.g. !warn @user reason here
+              // args: ['@user', 'reason', 'here']
+              return args.slice(1).join(' ');
+            }
+            return args.join(' ');
+          },
+          getInteger: (name) => {
+            // e.g. !timeout @user 10 reason
+            // args: ['@user', '10', 'reason']
+            const num = parseInt(args[1]);
+            return isNaN(num) ? null : num;
+          },
+          getChannel: (name) => {
+            return message.mentions.channels.first() || message.channel;
+          }
+        }
+      };
+
+      try {
+        await command.execute(mockInteraction, client);
+      } catch (error) {
+        logger.logDiscordError(client, `Error executing prefix command ${config.prefix}${commandName}`, error);
+        await message.reply({ content: 'There was an error while executing this command!' }).catch(() => null);
+      }
+      return;
+    }
+  }
 
   // Skip checks for staff members
   const member = await message.guild.members.fetch(message.author.id).catch(() => null);
@@ -18,7 +90,43 @@ export async function execute(message, client) {
   }
 
   try {
-    const analysis = await analyzeContent(message.content);
+    let analysis = null;
+
+    // A. Local AutoMod Check: Mention Spam
+    if (message.mentions.users.size > 5) {
+      analysis = { isSpam: true, reason: 'Mention Spam (>5 mentions)' };
+    }
+
+    // B. Local AutoMod Check: Caps Spam
+    if (!analysis) {
+      const rawText = message.content.replace(/[^a-zA-Z]/g, '');
+      if (rawText.length > 10) {
+        const capsCount = rawText.split('').filter(c => c === c.toUpperCase()).length;
+        if (capsCount / rawText.length > 0.75) {
+          analysis = { isSpam: true, reason: 'Caps Spam (>75% uppercase)' };
+        }
+      }
+    }
+
+    // C. Local AutoMod Check: Message Rate Spam
+    if (!analysis) {
+      const now = Date.now();
+      if (!userMessages.has(message.author.id)) {
+        userMessages.set(message.author.id, []);
+      }
+      const timestamps = userMessages.get(message.author.id);
+      timestamps.push(now);
+      const recentTimestamps = timestamps.filter(t => now - t < 3000);
+      userMessages.set(message.author.id, recentTimestamps);
+      if (recentTimestamps.length > 5) {
+        analysis = { isSpam: true, reason: 'Spamming messages too fast' };
+      }
+    }
+
+    // D. Fallback to API Safety Guard
+    if (!analysis) {
+      analysis = await analyzeContent(message.content);
+    }
 
     // 1. Handle Stress / Mental Health crisis (Supportive outreach)
     if (analysis.isStress) {

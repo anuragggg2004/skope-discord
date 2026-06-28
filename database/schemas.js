@@ -125,3 +125,21 @@ export const Suggestion = mongoose.model('Suggestion', SuggestionSchema);
 export const Ticket = mongoose.model('Ticket', TicketSchema);
 export const BugReport = mongoose.model('BugReport', BugReportSchema);
 export const FeatureRequest = mongoose.model('FeatureRequest', FeatureRequestSchema);
+
+// Quiz Score Schema
+const QuizScoreSchema = new mongoose.Schema({
+  userId: { 
+    type: String, 
+    required: true, 
+    unique: true, 
+    index: true 
+  },
+  username: { type: String, required: true },
+  score: { type: Number, default: 0 },
+  correctAnswers: { type: Number, default: 0 },
+  totalAnswered: { type: Number, default: 0 },
+  streak: { type: Number, default: 0 },
+  lastAnsweredAt: { type: Date, default: null }
+});
+
+export const QuizScore = mongoose.model('QuizScore', QuizScoreSchema);

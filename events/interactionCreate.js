@@ -9,7 +9,8 @@ import {
   TextInputBuilder,
   TextInputStyle
 } from 'discord.js';
-import { UserWarning, Suggestion, Ticket, BugReport, FeatureRequest } from '../database/schemas.js';
+import { UserWarning, Suggestion, Ticket, BugReport, FeatureRequest, QuizScore } from '../database/schemas.js';
+import { questionBank } from '../commands/quiz.js';
 import { config } from '../config.js';
 import { logger } from '../services/logger.js';
 
@@ -42,6 +43,64 @@ export async function execute(interaction, client) {
     const customId = interaction.customId;
     const guild = interaction.guild;
     const member = interaction.member;
+
+    // Quiz Answer Click Handler
+    if (customId.startsWith('quiz_answer:')) {
+      const parts = customId.split(':');
+      const choice = parts[1]; // A, B, C, D
+      const qId = parts[2];
+
+      const q = questionBank.find(item => item.id === qId);
+      if (!q) {
+        return interaction.reply({ content: '⚠️ Question not found in active database bank.', ephemeral: true });
+      }
+
+      try {
+        let userScore = await QuizScore.findOne({ userId: member.id });
+        if (!userScore) {
+          userScore = new QuizScore({ userId: member.id, username: member.user.username });
+        }
+
+        // Prevent double answering (rate limit: 12 seconds cooldown)
+        const now = Date.now();
+        if (userScore.lastAnsweredAt && (now - userScore.lastAnsweredAt.getTime() < 12000)) {
+          return interaction.reply({ content: '⚠️ You have already submitted an answer for this daily question, or are answering too fast!', ephemeral: true });
+        }
+
+        userScore.lastAnsweredAt = new Date();
+        userScore.totalAnswered += 1;
+
+        const isCorrect = (choice === q.correct);
+        if (isCorrect) {
+          userScore.score += 10;
+          userScore.correctAnswers += 1;
+          userScore.streak += 1;
+        } else {
+          userScore.streak = 0;
+        }
+
+        await userScore.save();
+
+        const embed = new EmbedBuilder()
+          .setTitle(isCorrect ? '🎉 Correct Answer! +10 Points' : '❌ Incorrect Answer')
+          .setColor(isCorrect ? '#10b981' : '#ef4444')
+          .setDescription(
+            `**Question**: ${q.question}\n\n` +
+            `• Your Choice: **${choice}**\n` +
+            `• Correct Answer: **${q.correct}**\n\n` +
+            `### 📚 AI Explanation:\n${q.explanation}\n\n` +
+            `**Your Stats**:\n` +
+            `• Current Score: **${userScore.score} pts**\n` +
+            `• Streak: **${userScore.streak} correct**🔥`
+          )
+          .setTimestamp();
+
+        return interaction.reply({ embeds: [embed], ephemeral: true });
+      } catch (err) {
+        logger.error(`Error processing quiz answer for user ${member.user.tag}`, err);
+        return interaction.reply({ content: `Failed to record quiz answer: ${err.message}`, ephemeral: true });
+      }
+    }
 
     // A. Smart Student Verification
     if (customId === 'verify_member') {
