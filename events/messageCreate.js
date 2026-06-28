@@ -1,5 +1,6 @@
 import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
 import { analyzeContent } from '../services/perspective.js';
+import { chatWithAI } from '../services/chatbot.js';
 import { UserWarning } from '../database/schemas.js';
 import { logger } from '../services/logger.js';
 import { config } from '../config.js';
@@ -106,7 +107,21 @@ export async function execute(message, client) {
   // Skip checks for staff members
   const member = await message.guild.members.fetch(message.author.id).catch(() => null);
   if (member && (member.roles.cache.has(config.roles.staff) || member.permissions.has(PermissionFlagsBits.ModerateMembers))) {
+    // If staff mentions the bot, allow chatbot response
+    if (message.mentions.has(client.user)) {
+      await message.channel.sendTyping();
+      const reply = await chatWithAI(message, client);
+      await message.reply(reply);
+    }
     return;
+  }
+
+  // Handle conversational bot ping
+  if (message.mentions.has(client.user)) {
+      await message.channel.sendTyping();
+      const reply = await chatWithAI(message, client);
+      await message.reply(reply);
+      return; // Do not process automod on bot pings to prevent double processing if AI flags itself
   }
 
   try {
