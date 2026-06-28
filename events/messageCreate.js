@@ -62,10 +62,16 @@ export async function execute(message, client) {
             return args.join(' ');
           },
           getInteger: (name) => {
-            // e.g. !timeout @user 10 reason
-            // args: ['@user', '10', 'reason']
-            const num = parseInt(args[1]);
-            return isNaN(num) ? null : num;
+            // e.g. !purge 40 (args: ['40'])
+            // e.g. !timeout @user 10 reason (args: ['@user', '10', 'reason'])
+            for (const arg of args) {
+              const num = parseInt(arg, 10);
+              // Make sure it's fully a number string to avoid parsing "@user" if it started with a number somehow
+              if (!isNaN(num) && num.toString() === arg) {
+                return num;
+              }
+            }
+            return null;
           },
           getChannel: (name) => {
             return message.mentions.channels.first() || message.channel;
