@@ -87,6 +87,20 @@ export async function execute(message, client) {
       }
       return;
     }
+
+    // Hidden test command for welcome message
+    if (commandName === 'simjoin') {
+      if (message.member.permissions.has(PermissionFlagsBits.Administrator)) {
+        try {
+          const guildMemberAddEvent = await import('./guildMemberAdd.js');
+          await guildMemberAddEvent.execute(message.member, client);
+          await message.reply('✅ Simulated join event triggered!');
+        } catch (err) {
+          await message.reply(`❌ Failed to simulate join: ${err.message}`);
+        }
+      }
+      return;
+    }
   }
 
   // Skip checks for staff members
