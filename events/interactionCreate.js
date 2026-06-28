@@ -890,4 +890,30 @@ export async function execute(interaction, client) {
       return;
     }
   }
+
+  // Handle Select Menus
+  if (interaction.isStringSelectMenu()) {
+    const { customId, values } = interaction;
+
+    if (customId === 'faq_select') {
+      const selected = values[0];
+      let answer = '';
+      
+      switch (selected) {
+        case 'q1': answer = '**Q: Is this real AI or a form with pre-written answers?**\nA: Real AI. It conducts a live conversation and changes its questions based on exactly what you say. No two students get the same interview.'; break;
+        case 'q2': answer = '**Q: Will it push me toward a college I can\'t afford?**\nA: No. You tell us your budget upfront. Every recommendation is filtered by what your family can actually pay.'; break;
+        case 'q3': answer = '**Q: What if I don\'t have my final marks yet?**\nA: Give us your estimated marks. You can come back after results and generate a new PathReport with updated numbers.'; break;
+        case 'q4': answer = '**Q: Does it only work for engineering?**\nA: No. Skope covers PCM, PCB, Commerce, Arts, Design, Law, Hotel Management, Agriculture, Media, and more. It knows real Indian colleges across every stream.'; break;
+        case 'q5': answer = '**Q: How is this different from Googling colleges?**\nA: Google gives you sponsored lists. Skope gives you a ranked shortlist filtered by YOUR marks, YOUR budget, YOUR city, and YOUR interest — with honest reality checks attached.'; break;
+        case 'q6': answer = '**Q: Can my parents read the alignment report?**\nA: Yes. The generated PathReport includes a dedicated \'Parent Alignment Vibe Check\' section designed to translate your career interests into parameters parents care about—like stability, growth, and ROI—helping clear communication gaps.'; break;
+        case 'q7': answer = '**Q: Does Skope take commission from colleges?**\nA: Absolutely not. We are 100% independent. We do not accept sponsored ads or placement commissions from universities. Every recommendation is purely data-driven.'; break;
+        case 'q8': answer = '**Q: Can I download my career roadmap?**\nA: Yes, you can export your complete PathReport as a high-quality PDF to print, save, or share directly with your parents or school counsellors.'; break;
+        case 'q9': answer = '**Q: How do you verify placement and salary data?**\nA: We cross-reference official NIRF data, university placement booklets, and actual student reviews on LinkedIn and Reddit to strip away marketing inflation and give you the raw placement truth.'; break;
+        default: answer = 'Invalid selection.';
+      }
+
+      await interaction.reply({ content: answer, ephemeral: true });
+    }
+  }
 }
+
