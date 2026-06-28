@@ -59,6 +59,11 @@ const commands = [
 ];
 
 // Decode Client ID from the first segment of the Discord Bot Token
+if (!config.discordToken) {
+  console.error("❌ DISCORD_TOKEN is not set in environment variables. Deployment cannot proceed.");
+  process.exit(1);
+}
+
 const base64ClientId = config.discordToken.split('.')[0];
 const clientId = Buffer.from(base64ClientId, 'base64').toString('ascii');
 

@@ -43,6 +43,9 @@ import * as memberAddEvent from './events/guildMemberAdd.js';
 import * as messageCreateEvent from './events/messageCreate.js';
 import * as interactionCreateEvent from './events/interactionCreate.js';
 import * as voiceStateUpdateEvent from './events/voiceStateUpdate.js';
+import * as channelDeleteEvent from './events/channelDelete.js';
+import * as roleDeleteEvent from './events/roleDelete.js';
+import * as guildBanAddEvent from './events/guildBanAdd.js';
 
 // 1. Initialize Express Health/Webhook Server
 const app = express();
@@ -276,7 +279,10 @@ const eventModules = [
   memberAddEvent,
   messageCreateEvent,
   interactionCreateEvent,
-  voiceStateUpdateEvent
+  voiceStateUpdateEvent,
+  channelDeleteEvent,
+  roleDeleteEvent,
+  guildBanAddEvent
 ];
 
 for (const event of eventModules) {

@@ -93,8 +93,8 @@ export async function execute(message, client) {
     let analysis = null;
 
     // A. Local AutoMod Check: Mention Spam
-    if (message.mentions.users.size > 5) {
-      analysis = { isSpam: true, reason: 'Mention Spam (>5 mentions)' };
+    if (message.mentions.users.size >= 4) {
+      analysis = { isSpam: true, reason: 'Mention Spam (>= 4 mentions)' };
     }
 
     // B. Local AutoMod Check: Caps Spam
@@ -102,8 +102,8 @@ export async function execute(message, client) {
       const rawText = message.content.replace(/[^a-zA-Z]/g, '');
       if (rawText.length > 10) {
         const capsCount = rawText.split('').filter(c => c === c.toUpperCase()).length;
-        if (capsCount / rawText.length > 0.75) {
-          analysis = { isSpam: true, reason: 'Caps Spam (>75% uppercase)' };
+        if (capsCount / rawText.length > 0.70) {
+          analysis = { isSpam: true, reason: 'Caps Spam (>70% uppercase)' };
         }
       }
     }
@@ -116,10 +116,10 @@ export async function execute(message, client) {
       }
       const timestamps = userMessages.get(message.author.id);
       timestamps.push(now);
-      const recentTimestamps = timestamps.filter(t => now - t < 3000);
+      const recentTimestamps = timestamps.filter(t => now - t < 4000);
       userMessages.set(message.author.id, recentTimestamps);
-      if (recentTimestamps.length > 5) {
-        analysis = { isSpam: true, reason: 'Spamming messages too fast' };
+      if (recentTimestamps.length >= 5) {
+        analysis = { isSpam: true, reason: 'Message Rate Spam (5 messages within 4 seconds)' };
       }
     }
 

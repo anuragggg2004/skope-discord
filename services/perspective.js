@@ -72,54 +72,66 @@ export async function analyzeContent(text) {
     };
   }
 
-  // 3. Check Toxicity using Perspective API (if configured)
-  if (config.perspectiveApiKey) {
+  // 3. Check Toxicity/Spam/Stress using GMI Cloud AI API (if configured)
+  if (config.gmiCloudApiKey) {
     try {
-      const url = `https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze?key=${config.perspectiveApiKey}`;
+      const url = `https://api.gmi-serving.com/v1/chat/completions`;
+      const prompt = `You are a Discord moderation bot for an educational server.
+Analyze the following message and output ONLY a valid JSON object.
+Classify the message into one of these categories:
+- STRESS: The user is expressing severe mental distress, self-harm, or suicidal thoughts.
+- SPAM: The user is posting academic spam (selling notes, unauthorized links, cheating, paper leaks).
+- TOXIC: The user is severely insulting others, using slurs, or making threats.
+- SAFE: The message does not violate any rules.
+
+Message: "${text}"
+
+Output JSON format exactly:
+{"category": "SAFE|TOXIC|SPAM|STRESS", "reason": "brief explanation", "score": 0.9}
+`;
+
       const response = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${config.gmiCloudApiKey}`
+        },
         body: JSON.stringify({
-          comment: { text },
-          languages: ['en'],
-          requestedAttributes: {
-            TOXICITY: {},
-            SEVERE_TOXICITY: {},
-            INSULT: {},
-            THREAT: {}
-          }
+          model: 'Qwen/Qwen3.5-35B-A3B',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.1,
+          response_format: { type: "json_object" }
         })
       });
 
       if (response.ok) {
         const data = await response.json();
-        const toxicityScore = data.attributeScores.TOXICITY.summaryValue.value;
-        const severeToxicityScore = data.attributeScores.SEVERE_TOXICITY.summaryValue.value;
-        const insultScore = data.attributeScores.INSULT.summaryValue.value;
-        const threatScore = data.attributeScores.THREAT.summaryValue.value;
-
-        // If toxicity, severe toxicity, threat, or insult is above 0.70 threshold
-        const isToxic = toxicityScore > 0.70 || severeToxicityScore > 0.60 || insultScore > 0.70 || threatScore > 0.60;
+        const content = data.choices[0].message.content;
         
-        if (isToxic) {
-          let reason = 'High toxicity score';
-          if (threatScore > 0.60) reason = 'Potential threat';
-          else if (insultScore > 0.70) reason = 'Insult detected';
+        try {
+          const result = JSON.parse(content);
+          const cat = result.category || 'SAFE';
+          const score = result.score || 0.8;
+          const reason = result.reason || 'AI Flagged';
           
-          return {
-            isToxic: true,
-            isSpam: false,
-            isStress: false,
-            reason: `${reason} (${Math.round(Math.max(toxicityScore, severeToxicityScore, insultScore, threatScore) * 100)}%)`,
-            score: Math.max(toxicityScore, severeToxicityScore, insultScore, threatScore)
-          };
+          if (cat === 'STRESS') {
+            return { isToxic: false, isSpam: false, isStress: true, reason: `AI: ${reason}`, score };
+          } else if (cat === 'SPAM') {
+            return { isToxic: false, isSpam: true, isStress: false, reason: `AI: ${reason}`, score };
+          } else if (cat === 'TOXIC') {
+            return { isToxic: true, isSpam: false, isStress: false, reason: `AI: ${reason}`, score };
+          } else {
+            return { isToxic: false, isSpam: false, isStress: false, reason: '', score: 0 };
+          }
+        } catch (parseErr) {
+          logger.warn(`Failed to parse AI response: ${content}`);
         }
       } else {
         const errText = await response.text();
-        logger.warn(`Perspective API request failed (${response.status}): ${errText}`);
+        logger.warn(`GMI Cloud API request failed (${response.status}): ${errText}`);
       }
     } catch (err) {
-      logger.error('Error invoking Perspective API, falling back to local list:', err);
+      logger.error('Error invoking GMI Cloud API, falling back to local list:', err);
     }
   }
 

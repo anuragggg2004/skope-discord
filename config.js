@@ -7,6 +7,7 @@ export const config = {
   prefix: process.env.PREFIX || '!',
   mongodbUri: process.env.MONGODB_URI || 'mongodb://localhost:27017/discord_skope',
   perspectiveApiKey: process.env.PERSPECTIVE_API_KEY || null,
+  gmiCloudApiKey: process.env.GMI_CLOUD_API_KEY || null,
   githubWebhookSecret: process.env.GITHUB_WEBHOOK_SECRET || 'skope_secret',
   
   // Guild configurations
