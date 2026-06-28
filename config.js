@@ -36,11 +36,13 @@ export const config = {
     dailyQuiz: process.env.CHANNEL_DAILY_QUIZ,
     confessions: process.env.CHANNEL_CONFESSIONS,
     examAlerts: process.env.CHANNEL_EXAM_ALERTS,
+    createRoom: process.env.CHANNEL_CREATE_ROOM,
   },
   
   // Categories
   categories: {
     tickets: process.env.CATEGORY_TICKETS,
+    studyRooms: process.env.CATEGORY_STUDY_ROOMS,
   },
 
   // Website URLs

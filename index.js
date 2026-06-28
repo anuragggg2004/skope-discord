@@ -34,12 +34,15 @@ import * as confessCmd from './commands/confess.js';
 import * as examsCmd from './commands/exams.js';
 import * as studentProfileCmd from './commands/student-profile.js';
 import * as reportMessageCmd from './commands/report-message.js';
+import * as pomodoroCmd from './commands/pomodoro.js';
+import * as remindCmd from './commands/remind.js';
 
 // Import events
 import * as readyEvent from './events/ready.js';
 import * as memberAddEvent from './events/guildMemberAdd.js';
 import * as messageCreateEvent from './events/messageCreate.js';
 import * as interactionCreateEvent from './events/interactionCreate.js';
+import * as voiceStateUpdateEvent from './events/voiceStateUpdate.js';
 
 // 1. Initialize Express Health/Webhook Server
 const app = express();
@@ -226,7 +229,8 @@ const client = new Client({
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMembers,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildVoiceStates
   ]
 });
 
@@ -257,7 +261,9 @@ const commandModules = [
   confessCmd,
   examsCmd,
   studentProfileCmd,
-  reportMessageCmd
+  reportMessageCmd,
+  pomodoroCmd,
+  remindCmd
 ];
 
 for (const cmd of commandModules) {
@@ -269,7 +275,8 @@ const eventModules = [
   readyEvent,
   memberAddEvent,
   messageCreateEvent,
-  interactionCreateEvent
+  interactionCreateEvent,
+  voiceStateUpdateEvent
 ];
 
 for (const event of eventModules) {

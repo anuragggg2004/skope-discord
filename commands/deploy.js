@@ -25,6 +25,8 @@ import * as confessCmd from './confess.js';
 import * as examsCmd from './exams.js';
 import * as studentProfileCmd from './student-profile.js';
 import * as reportMessageCmd from './report-message.js';
+import * as pomodoroCmd from './pomodoro.js';
+import * as remindCmd from './remind.js';
 
 const commands = [
   statusCmd.data.toJSON(),
@@ -51,7 +53,9 @@ const commands = [
   confessCmd.data.toJSON(),
   examsCmd.data.toJSON(),
   studentProfileCmd.data.toJSON(),
-  reportMessageCmd.data.toJSON()
+  reportMessageCmd.data.toJSON(),
+  pomodoroCmd.data.toJSON(),
+  remindCmd.data.toJSON()
 ];
 
 // Decode Client ID from the first segment of the Discord Bot Token

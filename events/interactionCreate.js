@@ -41,8 +41,17 @@ export async function execute(interaction, client) {
   // 2. Handle Buttons
   if (interaction.isButton()) {
     const customId = interaction.customId;
-    const guild = interaction.guild;
-    const member = interaction.member;
+    let guild = interaction.guild;
+    let member = interaction.member;
+
+    if (!member || !guild) {
+      try {
+        guild = await client.guilds.fetch(config.guildId);
+        member = await guild.members.fetch(interaction.user.id);
+      } catch (err) {
+        return interaction.reply({ content: 'Could not fetch your server profile. Make sure you are in the server.', ephemeral: true });
+      }
+    }
 
     // Quiz Answer Click Handler
     if (customId.startsWith('quiz_answer:')) {

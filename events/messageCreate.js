@@ -258,6 +258,20 @@ export async function execute(message, client) {
           logger.error(`Failed to auto-timeout ${message.author.tag}`, err);
         }
       }
+    } else {
+      // Not toxic/spam, check for auto-threading
+      if (message.channelId === config.channels.support) {
+        try {
+          const threadName = message.content.length > 50 ? message.content.substring(0, 47) + '...' : message.content;
+          await message.startThread({
+            name: `💬 Discuss: ${threadName}`,
+            autoArchiveDuration: 1440,
+            reason: 'Auto-thread for support question'
+          });
+        } catch (err) {
+          logger.warn(`Could not create auto-thread for message in support channel: ${err.message}`);
+        }
+      }
     }
   } catch (error) {
     logger.error('Error in messageCreate auto-mod execution', error);
