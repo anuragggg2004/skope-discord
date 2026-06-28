@@ -16,7 +16,7 @@ export async function execute(member, client) {
         const publicWelcomeEmbed = new EmbedBuilder()
           .setTitle('🎉 New Member Alert!')
           .setColor('#f1c40f')
-          .setDescription(`Welcome to the server, <@${member.id}>! We're glad to have you here.\n\nPlease check your DMs for a quick onboarding setup!`)
+          .setDescription(`Hi <@${member.id}>! I made Skope so that students like us could have a safe space to figure out our careers without all the stress and pressure.\n\nI've learned so much and made great friends here, and I hope you find the same clarity too!\n\n*(Please check your DMs for a quick onboarding setup!)*`)
           .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
           .setTimestamp();
         
