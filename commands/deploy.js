@@ -27,6 +27,10 @@ import * as studentProfileCmd from './student-profile.js';
 import * as reportMessageCmd from './report-message.js';
 import * as pomodoroCmd from './pomodoro.js';
 import * as remindCmd from './remind.js';
+import * as playCmd from './play.js';
+import * as skipCmd from './skip.js';
+import * as stopCmd from './stop.js';
+import * as queueCmd from './queue.js';
 
 const commands = [
   statusCmd.data.toJSON(),
@@ -55,7 +59,11 @@ const commands = [
   studentProfileCmd.data.toJSON(),
   reportMessageCmd.data.toJSON(),
   pomodoroCmd.data.toJSON(),
-  remindCmd.data.toJSON()
+  remindCmd.data.toJSON(),
+  playCmd.data.toJSON(),
+  skipCmd.data.toJSON(),
+  stopCmd.data.toJSON(),
+  queueCmd.data.toJSON()
 ];
 
 // Decode Client ID from the first segment of the Discord Bot Token

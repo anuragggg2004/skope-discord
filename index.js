@@ -36,6 +36,10 @@ import * as studentProfileCmd from './commands/student-profile.js';
 import * as reportMessageCmd from './commands/report-message.js';
 import * as pomodoroCmd from './commands/pomodoro.js';
 import * as remindCmd from './commands/remind.js';
+import * as playCmd from './commands/play.js';
+import * as skipCmd from './commands/skip.js';
+import * as stopCmd from './commands/stop.js';
+import * as queueCmd from './commands/queue.js';
 
 // Import events
 import * as readyEvent from './events/ready.js';
@@ -266,7 +270,11 @@ const commandModules = [
   studentProfileCmd,
   reportMessageCmd,
   pomodoroCmd,
-  remindCmd
+  remindCmd,
+  playCmd,
+  skipCmd,
+  stopCmd,
+  queueCmd
 ];
 
 for (const cmd of commandModules) {
