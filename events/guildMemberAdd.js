@@ -5,10 +5,29 @@ import { config } from '../config.js';
 export const name = 'guildMemberAdd';
 export const once = false;
 
-export async function execute(member) {
+export async function execute(member, client) {
   logger.info(`New member joined: ${member.user.tag} (${member.id})`);
 
-  // Try to send a welcome DM with discovery quiz buttons
+  // 1. Send welcome message to welcome channel
+  if (config.channels.welcome && config.channels.welcome !== 'PLACEHOLDER_WELCOME_CHANNEL') {
+    try {
+      const welcomeChannel = await client.channels.fetch(config.channels.welcome).catch(() => null);
+      if (welcomeChannel && welcomeChannel.isTextBased()) {
+        const publicWelcomeEmbed = new EmbedBuilder()
+          .setTitle('🎉 New Member Alert!')
+          .setColor('#f1c40f')
+          .setDescription(`Welcome to the server, <@${member.id}>! We're glad to have you here.\n\nPlease check your DMs for a quick onboarding setup!`)
+          .setThumbnail(member.user.displayAvatarURL({ dynamic: true }))
+          .setTimestamp();
+        
+        await welcomeChannel.send({ content: `Welcome <@${member.id}>!`, embeds: [publicWelcomeEmbed] });
+      }
+    } catch (err) {
+      logger.warn(`Could not send public welcome message for ${member.user.tag}: ${err.message}`);
+    }
+  }
+
+  // 2. Try to send a welcome DM with discovery quiz buttons
   try {
     const welcomeEmbed = new EmbedBuilder()
       .setTitle(`🎓 Welcome to ${member.guild.name}!`)

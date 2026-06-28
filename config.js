@@ -37,6 +37,7 @@ export const config = {
     confessions: process.env.CHANNEL_CONFESSIONS,
     examAlerts: process.env.CHANNEL_EXAM_ALERTS,
     createRoom: process.env.CHANNEL_CREATE_ROOM,
+    welcome: process.env.CHANNEL_WELCOME,
   },
   
   // Categories
