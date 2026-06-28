@@ -1,0 +1,38 @@
+ID: 1512269819117047930 | Name: WELCOME & INFO | Type: 4 | Parent: None
+ID: 1520506022815469658 | Name: FEEDBACK & BUGS | Type: 4 | Parent: None
+ID: 1520506099332022425 | Name: STUDENT COMMUNITY | Type: 4 | Parent: None
+ID: 1520506157683314689 | Name: PARENT CORNER | Type: 4 | Parent: None
+ID: 1520506202180681778 | Name: PRODUCT UPDATES | Type: 4 | Parent: None
+ID: 1520506245071503511 | Name: RESOURCES & GUIDES | Type: 4 | Parent: None
+ID: 1520506282174320891 | Name: COMMUNITY ENGAGEMENT | Type: 4 | Parent: None
+ID: 1520506320434888765 | Name: PRIVATE (MODS ONLY) | Type: 4 | Parent: None
+ID: 1520506615709827113 | Name: welcome | Type: 0 | Parent: WELCOME & INFO
+ID: 1520506655907774554 | Name: introductions | Type: 0 | Parent: WELCOME & INFO
+ID: 1520506687658659850 | Name: faq | Type: 0 | Parent: WELCOME & INFO
+ID: 1520507105683968051 | Name: career-discussions | Type: 0 | Parent: STUDENT COMMUNITY
+ID: 1520507154505928754 | Name: college-talk | Type: 0 | Parent: STUDENT COMMUNITY
+ID: 1520507193256837253 | Name: exam-prep | Type: 0 | Parent: STUDENT COMMUNITY
+ID: 1520507450581717012 | Name: parent-discussions | Type: 0 | Parent: PARENT CORNER
+ID: 1520507755004166206 | Name: announcements | Type: 0 | Parent: PRODUCT UPDATES
+ID: 1520507954623676546 | Name: guides | Type: 0 | Parent: RESOURCES & GUIDES
+ID: 1520507992468881438 | Name: resources | Type: 0 | Parent: RESOURCES & GUIDES
+ID: 1520508066007875716 | Name: random | Type: 0 | Parent: COMMUNITY ENGAGEMENT
+ID: 1520508263219593216 | Name: mod-chat | Type: 0 | Parent: PRIVATE (MODS ONLY)
+ID: 1520548473634816093 | Name: 📌 SUPPORT TICKETS | Type: 4 | Parent: None
+ID: 1520548475702612008 | Name: verification | Type: 0 | Parent: WELCOME & INFO
+ID: 1520548477635924050 | Name: support | Type: 0 | Parent: 📌 SUPPORT TICKETS
+ID: 1520548480026808350 | Name: daily-quiz | Type: 0 | Parent: COMMUNITY ENGAGEMENT
+ID: 1520548482061172740 | Name: confessions | Type: 0 | Parent: COMMUNITY ENGAGEMENT
+ID: 1520548484107735203 | Name: exam-alerts | Type: 0 | Parent: RESOURCES & GUIDES
+ID: 1520548485936447631 | Name: suggestions | Type: 0 | Parent: FEEDBACK & BUGS
+ID: 1520548488142786560 | Name: mod-logs | Type: 0 | Parent: PRIVATE (MODS ONLY)
+ID: 1520548490181218524 | Name: command-logs | Type: 0 | Parent: PRIVATE (MODS ONLY)
+ID: 1520548492110598166 | Name: error-logs | Type: 0 | Parent: PRIVATE (MODS ONLY)
+ID: 1520731660084183040 | Name: 📚 STUDY ROOMS | Type: 4 | Parent: None
+ID: 1520731661803982900 | Name: ➕ New Study Room | Type: 2 | Parent: 📚 STUDY ROOMS
+ID: 1520731664337076266 | Name: Silent Study | Type: 2 | Parent: 📚 STUDY ROOMS
+ID: 1520731666342084730 | Name: Group Discussions | Type: 2 | Parent: 📚 STUDY ROOMS
+ID: 1520731668330188942 | Name: 🎵 LOUNGE | Type: 4 | Parent: None
+ID: 1520731670347780196 | Name: music-commands | Type: 0 | Parent: 🎵 LOUNGE
+ID: 1520731672507715605 | Name: Lofi & Chill | Type: 2 | Parent: 🎵 LOUNGE
+ID: 1520731674873299057 | Name: Gaming Lounge | Type: 2 | Parent: 🎵 LOUNGE

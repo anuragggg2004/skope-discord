@@ -69,9 +69,8 @@ async function playNext(guildId) {
     const song = queue.songs[0];
     
     try {
-        // Request medium quality (1) to save bandwidth, and enable discordPlayerCompatibility 
-        // to pass raw Opus frames directly to Discord, saving massive amounts of CPU (skips FFmpeg transcoding).
-        const stream = await playdl.stream(song.url, { quality: 1, discordPlayerCompatibility: true });
+        // Remove discordPlayerCompatibility flag as it breaks raw @discordjs/voice audio
+        const stream = await playdl.stream(song.url);
         const resource = createAudioResource(stream.stream, {
             inputType: stream.type
         });
